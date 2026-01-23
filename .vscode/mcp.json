@@ -1,0 +1,14 @@
+{
+	"servers": {
+		"podcast-mcp": {
+			"type": "stdio",
+			"command": "python",
+			"args": ["-m", "servers.server"],
+			"cwd": "${workspaceFolder}"
+		},
+		"podcast-mcp-http": {
+			"type": "http",
+			"url": "http://localhost:8000/mcp"		}
+	},
+	"inputs": []
+}

@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+agent-framework
+azure-identity>=1.14.0
+youtube-transcript-api
+fastmcp>=2.14.3

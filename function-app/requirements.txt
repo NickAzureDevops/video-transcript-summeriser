@@ -1,0 +1,6 @@
+# Azure Functions
+azure-functions
+
+# MCP Dependencies (if using FastMCP)
+# mcp
+# fastmcp
