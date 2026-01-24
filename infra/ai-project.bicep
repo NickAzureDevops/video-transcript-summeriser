@@ -4,7 +4,7 @@ param aiProjectName string = '${aiFoundryName}-proj'
 param location string
 
 
-resource aiFoundry 'Microsoft.CognitiveServices/accounts@2025-04-01-preview' = {
+resource aiFoundry 'Microsoft.CognitiveServices/accounts@2025-06-01' = {
   name: aiFoundryName
   location: location
   identity: {
@@ -75,3 +75,12 @@ resource aiSearch 'Microsoft.Search/searchServices@2024-06-01-preview' = {
   }
 }
 
+resource aiProjectRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+  name: guid(aiProject.id, 'CognitiveServicesUser')
+  scope: aiFoundry
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c') // Cognitive Services User
+    principalId: aiProject.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+}

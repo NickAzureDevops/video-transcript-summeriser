@@ -1,12 +1,11 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from mcp.server.fastmcp import FastMCP
-from .tools import summarize_transcript, fetch_youtube_transcript, summarize_youtube_video, summarize_teams_transcript
-from .resources import YOUTUBE_TRANSCRIPTS, TEAMS_TRANSCRIPTS
-from .prompts import generic_summary_prompt, youtube_summary_prompt, teams_summary_prompt
+from tools import summarize_transcript, fetch_youtube_transcript, summarize_youtube_video, summarize_teams_transcript
+from resources import YOUTUBE_TRANSCRIPTS, TEAMS_TRANSCRIPTS
+from prompts import generic_summary_prompt, youtube_summary_prompt, teams_summary_prompt
 import os
 import re
-from agent_framework.openai import ChatOpenAI, create_agent  # Adjust import as needed
 
 app = FastAPI()
 
@@ -19,26 +18,6 @@ async def summarize_youtube_http(request: Request):
         return JSONResponse({"error": "Missing 'url' in request."}, status_code=400)
     summary = await summarize_youtube_video(url)
     return JSONResponse({"summary": summary})
-
-
-# No external MCP tools; only local tools from tools.py will be used.
-mcp_tools = []
-
-# Create a model instance for the MCP agent
-mcp_model = ChatOpenAI(
-    model=os.environ.get("FOUNDRY_MODEL_ID"),
-    base_url=os.environ.get("FOUNDRY_PROJECT_URL"),
-    api_key=os.environ.get("FOUNDRY_API_KEY"),
-    temperature=0.7,
-    use_responses_api=True,
-)
-
-# Create the MCP subagent
-mcp_agent = create_agent(
-    model=mcp_model,
-    tools=mcp_tools,
-    system_prompt="""You are a transcript summarization assistant. Use the available tools to summarize YouTube and Teams transcripts, and provide clear, concise answers.""",
-)
 
 mcp = FastMCP("transcript-mcp-server", host="0.0.0.0", port=8000)
 
