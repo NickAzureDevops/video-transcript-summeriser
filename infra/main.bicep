@@ -12,6 +12,20 @@ param location string = 'eastus2'
 @description('Name of the AI Foundry account (must be globally unique)')
 param aiFoundryName string = 'pizza-foundry-${uniqueString(subscription().id, environmentName)}'
 
+var functionAppName = 'func-${uniqueString(subscription().id, environmentName)}'
+var storageAccountName = 'stfunc${uniqueString(subscription().id, environmentName)}'
+var appServicePlanName = 'planfunc${uniqueString(subscription().id, environmentName)}'
+
+module functionApp 'function-app.bicep' = {
+  name: 'function-app'
+  params: {
+    functionAppName: functionAppName
+    storageAccountName: storageAccountName
+    appServicePlanName: appServicePlanName
+    location: location
+  }
+}
+
 
 module aiProject 'ai-project.bicep' = {
   name: 'ai-project'

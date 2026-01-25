@@ -8,8 +8,14 @@
     "location": {
       "value": "uksouth"
     },
-    "aiFoundryName": {
+    "functionAppName": {
       "value": "ai-foundry-agentcon-vienna"
+    },
+    "storageAccountName": {
+      "value": "agentconviennastorage"
+    },
+    "appServicePlanName": {
+      "value": "agentcon-vienna-asp"
     },
     "reservedResourceNames": {
       "value": []

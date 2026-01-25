@@ -1,15 +1,13 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from mcp.server.fastmcp import FastMCP
-from tools import summarize_transcript, fetch_youtube_transcript, summarize_youtube_video, summarize_teams_transcript
-from resources import YOUTUBE_TRANSCRIPTS, TEAMS_TRANSCRIPTS
-from prompts import generic_summary_prompt, youtube_summary_prompt, teams_summary_prompt
-import os
-import re
+from servers.tools import summarize_transcript, fetch_youtube_transcript, summarize_youtube_video, summarize_teams_transcript
+from servers.resources import YOUTUBE_TRANSCRIPTS, TEAMS_TRANSCRIPTS, cache_youtube_transcript, cache_teams_transcript
+from servers.prompts import generic_summary_prompt, youtube_summary_prompt, teams_summary_prompt
+import json
 
 app = FastAPI()
 
-# --- FastAPI endpoint for YouTube video summarization ---
 @app.post("/summarize_youtube")
 async def summarize_youtube_http(request: Request):
     data = await request.json()
@@ -21,34 +19,33 @@ async def summarize_youtube_http(request: Request):
 
 mcp = FastMCP("transcript-mcp-server", host="0.0.0.0", port=8000)
 
+# Register MCP tools from tools.py
 @mcp.tool()
 async def summarize(transcript: str, source: str = "generic") -> str:
-    """Summarize a transcript from any source."""
     return await summarize_transcript(transcript, source)
 
 @mcp.tool()
-async def fetch_youtube(video_id: str) -> str:
-    """Fetch transcript for a YouTube video."""
+async def fetch_youtube_transcript_tool(video_id: str) -> str:
     return await fetch_youtube_transcript(video_id)
 
 @mcp.tool()
 async def summarize_youtube_video_tool(url: str) -> str:
     return await summarize_youtube_video(url)
+
 @mcp.tool()
 async def summarize_teams(transcript: str) -> str:
-    """Summarize a Teams meeting transcript."""
     return await summarize_teams_transcript(transcript)
 
+# Register MCP resources from resources.py
 @mcp.resource("transcript://youtube")
 def get_youtube_transcripts() -> str:
-    import json
     return json.dumps(YOUTUBE_TRANSCRIPTS)
 
 @mcp.resource("transcript://teams")
 def get_teams_transcripts() -> str:
-    import json
     return json.dumps(TEAMS_TRANSCRIPTS)
 
+# Register MCP prompts from prompts.py
 @mcp.prompt()
 def generic_prompt(transcript: str) -> str:
     return generic_summary_prompt(transcript)

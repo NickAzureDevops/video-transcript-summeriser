@@ -1,0 +1,24 @@
+00:00:00
+What is an AI agent? Uh, so there's loads of different definitions. I would say that an agent is something that autonomous. So it's able to make decisions. We're taking some sort of input. Uh, but really we're moving away from chatting to actually taking action. So that's how I I view agents with LL. It's an agent that does AI. An AI agent is an LLM together with a prompt, instructions, and tools that allow the LLM to make decisions about how to branch and code. That's the
+
+00:00:38
+lowest level definition that I love giving people. You know what my answer was? What's that? It's an agent that does AI. Oh jeez, that's terrible. I don't like it. Uh I should know this off by heart. Is there something? It's a system or process that will respond automatically based on like uh client based on the import and looking around it. A thermostat could be thought of as an agent. I think of an AI agent at the minimum as being something that uses an LLM to make a decision and usually has
+
+00:01:07
+some tools at their disposal and then we can put together agents with multiple tools, tool servers and other agents with like delegation approaches in order to have more agentic flows. What is an AI agent? Uh, a piece of software Microsoft really wants to sell me. An AI agent is a language model powered entity that takes digital or physical input and gives you some sort of a result or an action. Yeah. So, an AI agent to me is just a program or software where the there's a large language model that's driving the
+
+00:01:45
+control flow. A AI agent is a digital assistant that can do work on your behalf. What is the AI agent? I'm not educated enough. I went to I went to community college. Something that does stuff for you. What is an AI agent? Oh my gosh. Um AI agents are object-oriented. The object-oriented version of like a prompt in a model. So prompt, model, and state. That's my like my default answer. What would the perfect AI agent in your life be? Okay, are we talking like hypothetical or like the perfect AI agent that does
+
+00:02:24
+not exist is one that would literally do my laundry, make my food, like the stuff I just don't want to do? I think just an agent to do everything. Ideally, like the I don't know, like a mom agent would be nice. Actually, a mom agent would be great. What would be the perfect AI agent in your life? So uh as you know Sarah I'm leading the developer relations team. Uh so u a developer relations manager agent would really help me replace myself uh uh for most of the tasks that I'm doing so that
+
+00:03:01
+I can spend more time coding. An agent to handle the mental load. Birthdays uh appointments um changing filters at random times throughout the year. It's all the little things in like # adulting that is just like extra stuff that nobody really cares about. I think that security one is the one I want. The one that's simply sniffing the projects that I'm currently working and going, you know, you haven't turned this on. Like that that would be my friend. Mark Rosinovich, test this code.
+
+00:03:35
+Scott Hansselman, test this code. What would be the perfect AI agent in your life? M one that checked my emails every morning and gave me a summary and made me coffee and breakfast probably. I actually want an AI agent that helps me with photography so that when I'm taking lots of pictures of bees, I can give them to the agent and the agent's going to decide which of them is exactly the best picture of the bee and like the sharpest and then crops it perfectly and then uploads it to the citizen science
+
+00:04:11
+website and figures out the ID. The perfect AI agent would be the expense report agent. Everyone agrees. What would be the perfect AI agent in your life? I really want the T ill grey hot machine from Star Trek. Welcome to Agent Con.
+

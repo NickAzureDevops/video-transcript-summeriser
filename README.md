@@ -1,4 +1,12 @@
-# MCP Server for YouTube & Teams Transcript Summarization
+# TranscriptGist: AI-Powered Transcript Summarizer
+
+Summarizing YouTube and Teams meeting transcripts using Microsoft Foundry (OpenAI) models.
+
+## Features
+- Summarize YouTube video transcripts by video ID
+- Summarize Teams or generic transcripts via file upload or pasted text
+- Powered by Microsoft Foundry/OpenAI endpoints
+- Simple REST API, easy to run locally or deploy
 
 ## Endpoints
 - `/summarize/youtube`: Summarize YouTube video transcript by video ID
@@ -7,20 +15,28 @@
 
 ## Usage
 1. Install dependencies: `pip install -r requirements.txt`
-2. Start the server: `uvicorn app.app:app --reload`
-3. POST YouTube video ID, upload transcript file, or paste transcript text to endpoints
+2. Set your environment variables in a `.env` file (see below)
+3. Start the server: `uvicorn app.app:app --reload`
+4. POST YouTube video ID, upload transcript file, or paste transcript text to endpoints
 
-## Teams Support
-- Manual upload or paste of Teams transcripts is supported (works for free Teams accounts).
-- Automatic fetching of Teams transcripts via API requires paid/enterprise Teams and extra setup.
+### Environment Variables
+Create a `.env` file in the project root with:
+```
+MODEL_DEPLOYMENT_NAME=your-model-name
+FOUNDRY_PROJECT_URL=https://your-foundry-endpoint.openai.azure.com/
+FOUNDRY_API_KEY=your-api-key
+```
 
 ## Foundry Integration
 - Summarization is performed using a Microsoft Foundry agent (see `app/app.py`).
-- Set your Foundry project endpoint and model deployment name in the code.
+- Set your Foundry project endpoint and model deployment name in the `.env` file.
 
-## Example YouTube Request
-```json
-{
-  "video_id": "YOUTUBE_VIDEO_ID"
-}
+
+## How to Use with a Transcript File
+- Simply copy or save your transcript as a plain text file (e.g., `transcript.txt`) into the `transcripts/` folder.
+- Then, upload it using the file upload endpoint:
+
+```sh
+curl -X POST "http://localhost:8000/summarize/upload" -F "file=@transcripts/transcript.txt"
 ```
+
