@@ -8,13 +8,20 @@ app = FastAPI()
 class TranscriptRequest(BaseModel):
     transcript: str
     source: Optional[str] = None  # 'teams' or 'youtube'
+    length: Optional[str] = "medium"  # 'short', 'medium', 'long'
+    style: Optional[str] = "paragraph"  # 'paragraph', 'bullets', 'actions'
 
 class YouTubeRequest(BaseModel):
     video_id: str
 
 @app.post("/summarize")
 async def summarize_transcript(request: TranscriptRequest):
-    summary = await summarize_transcript(request.transcript, request.source or "unknown")
+    summary = await summarize_transcript(
+        request.transcript,
+        request.source or "unknown",
+        length=request.length or "medium",
+        style=request.style or "paragraph"
+    )
     return {"summary": summary}
 
 @app.post("/summarize/upload")

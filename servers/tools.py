@@ -21,8 +21,21 @@ def extract_video_id(url):
         return match.group(1)
     raise ValueError("Invalid YouTube URL")
 
-async def summarize_transcript(transcript: str, source: str = "generic") -> str:
-    prompt = f"Summarize this {source} transcript in 5 sentences:\n{transcript[:4000]}"
+async def summarize_transcript(transcript: str, source: str = "generic", length: str = "medium", style: str = "paragraph") -> str:
+    # Map length to instructions
+    length_map = {
+        "short": "in 2 sentences",
+        "medium": "in 5 sentences",
+        "long": "in a detailed paragraph"
+    }
+    style_map = {
+        "paragraph": "as a concise paragraph",
+        "bullets": "as bullet points",
+        "actions": "focusing on action items only"
+    }
+    length_instruction = length_map.get(length, "in 5 sentences")
+    style_instruction = style_map.get(style, "as a concise paragraph")
+    prompt = f"Summarize this {source} transcript {length_instruction} {style_instruction}:\n{transcript[:4000]}"
     response = openai_client.chat.completions.create(
         model=FOUNDRY_MODEL_ID,
         messages=[
