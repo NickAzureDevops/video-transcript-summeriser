@@ -8,6 +8,9 @@
     "location": {
       "value": "uksouth"
     },
+    "serverfarms_ASP_agentconvienna_b61a_name": {
+      "value": "agentcon-vienna-asp"
+    },
     "functionAppName": {
       "value": "ai-foundry-agentcon-vienna"
     },

@@ -1,3 +1,34 @@
+var sites_asp_func_agentcon_vienna_name = 'asp-func-agentcon-vienna'
+var appServicePlanName = 'agentcon-vienna-asp'
+@description('Name of the Function App')
+
+
+resource asp 'Microsoft.Web/serverfarms@2024-11-01' = {
+  name: appServicePlanName
+  location: 'East US'
+  sku: {
+    name: 'B1'
+    tier: 'Basic'
+    size: 'B1'
+    family: 'B'
+    capacity: 1
+  }
+  kind: 'linux'
+  properties: {
+    perSiteScaling: false
+    elasticScaleEnabled: false
+    maximumElasticWorkerCount: 1
+    isSpot: false
+    reserved: true
+    isXenon: false
+    hyperV: false
+    targetWorkerCount: 0
+    targetWorkerSizeId: 0
+    zoneRedundant: false
+    asyncScalingEnabled: false
+  }
+}
+
 targetScope = 'resourceGroup'
 
 @minLength(1)
@@ -10,21 +41,7 @@ param environmentName string
 param location string = 'eastus2'
 
 @description('Name of the AI Foundry account (must be globally unique)')
-param aiFoundryName string = 'pizza-foundry-${uniqueString(subscription().id, environmentName)}'
-
-var functionAppName = 'func-${uniqueString(subscription().id, environmentName)}'
-var storageAccountName = 'stfunc${uniqueString(subscription().id, environmentName)}'
-var appServicePlanName = 'planfunc${uniqueString(subscription().id, environmentName)}'
-
-module functionApp 'function-app.bicep' = {
-  name: 'function-app'
-  params: {
-    functionAppName: functionAppName
-    storageAccountName: storageAccountName
-    appServicePlanName: appServicePlanName
-    location: location
-  }
-}
+param aiFoundryName string = 'agentcon-vienna-${uniqueString(subscription().id, environmentName)}'
 
 
 module aiProject 'ai-project.bicep' = {
