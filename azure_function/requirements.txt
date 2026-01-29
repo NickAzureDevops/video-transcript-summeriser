@@ -1,0 +1,3 @@
+fastapi
+azure-functions
+mcp-server
