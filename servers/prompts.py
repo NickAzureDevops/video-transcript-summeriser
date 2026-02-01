@@ -1,3 +1,7 @@
+def action_items_prompt(transcript: str) -> str:
+    return f"Extract all action items from the following transcript. List each as a bullet point:\n{transcript}"
+SUMMARIZE_PROMPT = "Summarize the following transcript:\n{transcript}"
+
 def generic_summary_prompt(transcript: str) -> str:
     return f"Summarize the following transcript:\n{transcript}"
 
