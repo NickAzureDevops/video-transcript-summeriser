@@ -43,11 +43,11 @@ safe-outputs:
 timeout-minutes: 10
 ---
 
-# Summarize a YouTube video
+# Summarize or translate a YouTube video
 
 A new issue (#${{ github.event.issue.number }}) was opened. A setup step has
-already fetched the video transcript into the file `transcript.txt` in the
-working directory.
+already fetched the video transcript (translated to English when necessary) into
+the file `transcript.txt` in the working directory.
 
 Do the following:
 
@@ -58,8 +58,14 @@ Do the following:
    transcript could not be retrieved (the video may have no captions, or YouTube
    blocked the request from the runner). Include the error detail that follows
    `FETCH_FAILED:`. Then stop.
-4. Otherwise, summarize the transcript: write a 2-3 sentence overview, then 4-6
-   bullet points of the key takeaways.
+4. Read the issue body (`${{ github.event.issue.body }}`). If it contains the
+   word "translate" (case-insensitive), the user wants a **translation**:
+   - Post the full translated transcript content as a comment, formatted in
+     clear readable Markdown paragraphs. Do not condense or omit content.
+   - Begin the comment with a short note indicating the language the video was
+     translated from (if identifiable from the transcript).
+5. Otherwise, **summarize** the transcript: write a 2-3 sentence overview, then
+   4-6 bullet points of the key takeaways.
 
 Post your result as a comment on the issue using the add-comment safe output.
 Format it in clear Markdown. Do not invent content that is not supported by the
