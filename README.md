@@ -1,76 +1,51 @@
-# TranscriptGist: AI-Powered Transcript Summarizer
+# video-transcript-summeriser
 
-Summarizing YouTube and Teams meeting transcripts using Microsoft Foundry (OpenAI) models.
+Summarize a YouTube video by opening a GitHub issue with its link. A
+[GitHub Agentic Workflow](https://github.github.com/gh-aw/) fetches the video's
+transcript and posts a concise summary back as a comment — powered by GitHub
+Copilot, with no external API keys or cloud services.
 
-## Features
-- Summarize YouTube video transcripts by video ID
-- Summarize Teams or generic transcripts via file upload or pasted text
-- Powered by Microsoft Foundry/OpenAI endpoints
-- Simple REST API, easy to run locally or deploy
+## How it works
 
-## Endpoints
-* `/summarize/youtube`: Summarize YouTube video transcript by video ID
-* `/summarize/upload`: Upload transcript file for summarization (works for Teams, YouTube, or any transcript)
-* `/summarize`: Paste transcript text for summarization (works for Teams, YouTube, or any transcript)
-* `/tools`: Chat with available tools by specifying tool name and parameters (see below)
+1. You open (or reopen) an issue containing a YouTube URL in its body.
+2. The workflow [.github/workflows/summarize-youtube.md](.github/workflows/summarize-youtube.md):
+   - installs dependencies and runs [get_transcript.py](get_transcript.py) to
+     fetch the captions,
+   - asks the Copilot agent to summarize the transcript,
+   - posts the summary as a comment on the issue.
 
-## Usage
-1. Install dependencies: `pip install -r requirements.txt`
-2. Set your environment variables in a `.env` file (see below)
-3. Start the server: `uvicorn app.app:app --reload`
-4. POST YouTube video ID, upload transcript file, or paste transcript text to endpoints
+The agent itself writes the summary, so there is no model deployment or API key
+to manage.
 
-### Tool Chat Endpoint
+## Files
 
-Interact with summarization tools by POSTing to `/tools` with a JSON body specifying the tool and its parameters. Example:
+| File | Purpose |
+|------|---------|
+| [.github/workflows/summarize-youtube.md](.github/workflows/summarize-youtube.md) | Workflow source (edit this) |
+| `.github/workflows/summarize-youtube.lock.yml` | Compiled workflow that GitHub Actions runs (generated — do not edit by hand) |
+| [get_transcript.py](get_transcript.py) | Fetches a YouTube transcript as plain text |
+| [requirements.txt](requirements.txt) | Just `youtube-transcript-api` |
 
-```json
-{
-	"tool": "summarize_transcript",
-	"params": {
-		"transcript": "Paste your transcript here.",
-		"source": "teams",
-		"length": "short",
-		"style": "bullets"
-	}
-}
-```
+After editing the `.md`, run `gh aw compile` to regenerate the `.lock.yml`, then
+commit both.
 
-Available tools:
+## Local use
 
-- `summarize_transcript`: Summarize any transcript (params: transcript, source, length, style)
-- `summarize_youtube_video`: Summarize a YouTube video by URL (params: url)
-- `summarize_teams_transcript`: Summarize a Teams transcript (params: transcript)
-
-Example curl:
+Fetch a transcript directly:
 
 ```sh
-curl -X POST "http://localhost:8000/tools" \
-	-H "Content-Type: application/json" \
-	-d '{
-		"tool": "summarize_transcript",
-		"params": {"transcript": "Paste your transcript here.", "source": "teams", "length": "short", "style": "bullets"}
-	}'
+pip install -r requirements.txt
+python3 get_transcript.py "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
 
-### Environment Variables
-Create a `.env` file in the project root with:
-```
-MODEL_DEPLOYMENT_NAME=your-model-name
-FOUNDRY_PROJECT_URL=https://your-foundry-endpoint.openai.azure.com/
-FOUNDRY_API_KEY=your-api-key
-```
+## Requirements
 
-## Foundry Integration
-- Summarization is performed using a Microsoft Foundry agent (see `app/app.py`).
-- Set your Foundry project endpoint and model deployment name in the `.env` file.
+- The [`gh aw`](https://github.com/githubnext/gh-aw) CLI extension to edit and
+  compile the workflow.
+- GitHub Copilot enabled for the repository (the workflow's engine).
 
+## Caveat
 
-## How to Use with a Transcript File
-- Simply copy or save your transcript as a plain text file (e.g., `transcript.txt`) into the `transcripts/` folder.
-- Then, upload it using the file upload endpoint:
-
-```sh
-curl -X POST "http://localhost:8000/summarize/upload" -F "file=@transcripts/transcript.txt"
-```
-
+YouTube sometimes blocks transcript requests from cloud/datacenter IPs, so the
+workflow can be intermittent on GitHub-hosted runners. If that happens, run it on
+a self-hosted runner or via a proxy. It works reliably locally.

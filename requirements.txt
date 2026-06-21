@@ -1,8 +1,1 @@
-uvicorn
-agent-framework
-azure-identity>=1.14.0
 youtube-transcript-api
-starlette>=0.40.0,<0.51.0
-fastmcp==2.14.4
-azure-functions
-mcp-server
