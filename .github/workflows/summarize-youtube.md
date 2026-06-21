@@ -58,8 +58,9 @@ Do the following:
    transcript could not be retrieved (the video may have no captions, or YouTube
    blocked the request from the runner). Include the error detail that follows
    `FETCH_FAILED:`. Then stop.
-4. Read the issue body (`${{ github.event.issue.body }}`). If it contains the
-   word "translate" (case-insensitive), the user wants a **translation**:
+4. Read the issue body by using your GitHub tools to fetch issue
+   #${{ github.event.issue.number }}. If it contains the word "translate"
+   (case-insensitive), the user wants a **translation**:
    - Post the full translated transcript content as a comment, formatted in
      clear readable Markdown paragraphs. Do not condense or omit content.
    - Begin the comment with a short note indicating the language the video was
