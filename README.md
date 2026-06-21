@@ -1,18 +1,28 @@
 # video-transcript-summeriser
 
-Summarize a YouTube video by opening a GitHub issue with its link. A
-[GitHub Agentic Workflow](https://github.github.com/gh-aw/) fetches the video's
-transcript and posts a concise summary back as a comment — powered by GitHub
-Copilot, with no external API keys or cloud services.
+Summarize or translate a YouTube video by opening a GitHub issue with its link.
+A [GitHub Agentic Workflow](https://github.github.com/gh-aw/) fetches the
+video's transcript and posts a concise summary (or full translation) back as a
+comment — powered by GitHub Copilot, with no external API keys or cloud
+services.
 
 ## How it works
 
 1. You open (or reopen) an issue containing a YouTube URL in its body.
 2. The workflow [.github/workflows/summarize-youtube.md](.github/workflows/summarize-youtube.md):
    - installs dependencies and runs [get_transcript.py](get_transcript.py) to
-     fetch the captions,
-   - asks the Copilot agent to summarize the transcript,
-   - posts the summary as a comment on the issue.
+     fetch the captions (automatically translated to English when the video has
+     no English captions),
+   - asks the Copilot agent to summarize **or translate** the transcript,
+   - posts the result as a comment on the issue.
+
+### Summary vs. translation
+
+- **Summarize** (default): open an issue with just the YouTube URL.
+  The agent posts a 2-3 sentence overview and key takeaways.
+- **Translate**: include the word _translate_ anywhere in the issue body (e.g.
+  "Translate this https://youtu.be/..."). The agent posts the full transcript
+  content in English, noting the source language.
 
 The agent itself writes the summary, so there is no model deployment or API key
 to manage.
